@@ -1,0 +1,22 @@
+{
+  "music": {
+    "logfilepath": "musicdl.log",
+    "savedir": "downloaded",
+    "search_size_per_source": 2,
+    "proxies": {
+    }
+  },
+  "target": {
+    "酷我": "kuwo",
+    "Joox": "joox",
+    "咪咕": "migu",
+    "酷狗": "kugou",
+    "荔枝": "lizhi",
+    "虾米": "xiami",
+    "一听": "yiting",
+    "网易云": "netease",
+    "QQ": "qqmusic",
+    "千千": "qianqian",
+    "5Sing": "fivesing"
+  }
+}
