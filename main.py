@@ -11,7 +11,8 @@ LastEditTime: 2021-02-20 10:25:09
 import logging
 import os
 import sys
-# qt
+import pyximport  # qt
+pyximport.install()
 import requests
 from PyQt5 import QtWidgets, QtCore, QtGui
 #   引入ui文件
@@ -20,6 +21,7 @@ from home import Ui_MainWindow as Ui
 from musicdl import musicdl
 #   工具引入
 import utils as my_utils
+
 
 logging.basicConfig(level=0)
 
@@ -113,7 +115,7 @@ class MyApp(QtWidgets.QMainWindow, Ui):
         musicdl.utils.checkDir(songinfo['savedir'])
         with requests.get(songinfo['download_url'], headers=headers, stream=True, verify=False) as response:
             if response.status_code == 200:
-                total_size, chunk_size, download_size = int(response.headers['content-length']), 1024, 0
+                total_size, chunk_size, download_size = int(response.headers.get('content-length', 102400)), 1024, 0
                 with open(os.path.join(songinfo['savedir'], songinfo['savename'] + '.' + songinfo['ext']), 'wb') as fp:
                     for chunk in response.iter_content(chunk_size=chunk_size):
                         if chunk:
@@ -121,7 +123,8 @@ class MyApp(QtWidgets.QMainWindow, Ui):
                             download_size += len(chunk)
                             self.progressBar.setValue(int(download_size / total_size * 100))
         QtWidgets.QMessageBox().information(self, '下载完成',
-                                            '歌曲%s已经下载完成, 保存在当前路径的%s文件夹下' % (songinfo['savename'], songinfo['savedir']))
+                                            '歌曲%s已经下载完成, 保存在当前路径的%s文件夹下' % (
+                                                songinfo['savename'], songinfo['savedir']))
         self.progressBar.setValue(0)
 
 
